@@ -1,0 +1,33 @@
+{
+  "variables": {
+    "ansible_host": "default",
+    "ansible_connection": "docker"
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "alpine:3.5",
+      "commit": "true",
+      "author": "Shoma Nishitateno",
+      "run_command": [ "-d", "-i", "-t", "--name", "{{user `ansible_host`}}", "{{.Image}}", "/bin/sh" ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apk add --update python python-dev",
+        "rm -rf /var/cache/apk/*"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "shomatan/python",
+        "tag": "latest-alpine"
+      }
+    ]
+  ]
+}
