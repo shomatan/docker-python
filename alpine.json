@@ -19,6 +19,15 @@
         "apk add --update python python-dev",
         "rm -rf /var/cache/apk/*"
       ]
+    },
+    {
+      "type": "ansible",
+      "user": "root",
+      "playbook_file": "site.yml",
+      "extra_arguments": [
+        "--extra-vars",
+        "ansible_host={{user `ansible_host`}} ansible_connection={{user `ansible_connection`}}"
+      ]
     }
   ],
   "post-processors": [
